@@ -12,9 +12,9 @@ struct label {
 	char labelname[30];
 };
 struct file {
-	int contain;//¸ÃÎÄ¼ş°üº¬¶àÉÙ¸ö±êÇ©
-	char filename[10];//¸ÃÎÄ¼şµÄÃû×Ö
-	label label[100];//ËùÓĞ±êÇ©
+	int contain;//è¯¥æ–‡ä»¶åŒ…å«å¤šå°‘ä¸ªæ ‡ç­¾
+	char filename[10];//è¯¥æ–‡ä»¶çš„åå­—
+	label label[100];//æ‰€æœ‰æ ‡ç­¾
 
 }nowfile;
 int LoadFile(FILE* fp, char* buffer)
@@ -53,14 +53,14 @@ int SeekPath(char* buffer, char*& p, char*& next)
 
 }
 
-void spliter(char* ppath, char* nextpath)//½«Á½¸öpath±ê¼ÇÖ®¼äµÄÄÚÈİ·Ö¸î
+void spliter(char* ppath, char* nextpath)//å°†ä¸¤ä¸ªpathæ ‡è®°ä¹‹é—´çš„å†…å®¹åˆ†å‰²
 {
 	char* seeker, *operater;
 	
 	seeker = strstr(ppath, "\/");
 	seeker++;
 
-	//Ñ°ÕÒ²¢×ªÂ¼path
+	//å¯»æ‰¾å¹¶è½¬å½•path
 	operater = nowfile.filename;
 	for (int i = 0; *seeker != '\.'; i++)
 	{
@@ -72,7 +72,7 @@ void spliter(char* ppath, char* nextpath)//½«Á½¸öpath±ê¼ÇÖ®¼äµÄÄÚÈİ·Ö¸î
 	}
 	*operater = 0;
 
-	//¶¨Î»categoryÖ±µ½³¬³önextpath
+	//å®šä½categoryç›´åˆ°è¶…å‡ºnextpath
 	int lc = 0;//labelcounter
 	while (1)
 	{
@@ -85,11 +85,11 @@ void spliter(char* ppath, char* nextpath)//½«Á½¸öpath±ê¼ÇÖ®¼äµÄÄÚÈİ·Ö¸î
 		{
 			break;
 		}
-		while (*seeker != '\:')//ÏòÇ°ÒÆ¶¯Ö±µ½¼ûµ½£º
+		while (*seeker != '\:')//å‘å‰ç§»åŠ¨ç›´åˆ°è§åˆ°ï¼š
 		{
 			seeker++;
 		}
-		while (*seeker != '\"')//ÏòÇ°ÒÆ¶¯Ö±µ½¼ûµ½£º
+		while (*seeker != '\"')//å‘å‰ç§»åŠ¨ç›´åˆ°è§åˆ°ï¼š
 		{
 			seeker++;
 		}
@@ -113,8 +113,8 @@ void spliter(char* ppath, char* nextpath)//½«Á½¸öpath±ê¼ÇÖ®¼äµÄÄÚÈİ·Ö¸î
 			strcpy(nowfile.label[lc].labelname, "unknown");
 		}
 
-		//¿ªÊ¼×ªÂ¼×ø±ê
-		//×ªÂ¼xmin
+		//å¼€å§‹è½¬å½•åæ ‡
+		//è½¬å½•xmin
 		char temp[30];
 		char* intbuffer = temp;
 		seeker = strstr(ppath, "xmin");
@@ -137,7 +137,7 @@ void spliter(char* ppath, char* nextpath)//½«Á½¸öpath±ê¼ÇÖ®¼äµÄÄÚÈİ·Ö¸î
 		sscanf(temp, "%f", &nowfile.label[lc].xmin);
 		//delete intbuffer;
 
-		//×ªÂ¼ymin
+		//è½¬å½•ymin
 		//intbuffer = new char[15];
 		intbuffer = temp;
 		seeker = strstr(ppath, "ymin");
@@ -159,7 +159,7 @@ void spliter(char* ppath, char* nextpath)//½«Á½¸öpath±ê¼ÇÖ®¼äµÄÄÚÈİ·Ö¸î
 		*intbuffer = '\0';
 		sscanf(temp, "%f", &nowfile.label[lc].ymin);
 
-		//×ªÂ¼xmax
+		//è½¬å½•xmax
 		//intbuffer = new char[15];
 		intbuffer = temp;
 		seeker = strstr(ppath, "ymax");
@@ -181,7 +181,7 @@ void spliter(char* ppath, char* nextpath)//½«Á½¸öpath±ê¼ÇÖ®¼äµÄÄÚÈİ·Ö¸î
 		*intbuffer = '\0';
 		sscanf(temp, "%f", &nowfile.label[lc].ymax);
 
-		//×ªÂ¼ymax
+		//è½¬å½•ymax
 		//intbuffer = new char[15];
 		intbuffer = temp;
 		seeker = strstr(ppath, "xmax");
@@ -267,11 +267,11 @@ int main()
 
 	char* buffer=new char[10000];
 	FILE* fp;
-	FILE* target = NULL;//×ª»»Æ÷Éú³ÉÎÄ¼şÖ¸Õë
+	FILE* target = NULL;//è½¬æ¢å™¨ç”Ÿæˆæ–‡ä»¶æŒ‡é’ˆ
 	fp = fopen("annotations.json", "r");
 
-	char* ppath = new char;//µ±Ç°path³öÏÖÎ»ÖÃÖ¸Õë
-	char* nextpath = new char;//ÏÂÒ»¸öpath³öÏÖÎ»ÖÃÖ¸Õë
+	char* ppath = new char;//å½“å‰pathå‡ºç°ä½ç½®æŒ‡é’ˆ
+	char* nextpath = new char;//ä¸‹ä¸€ä¸ªpathå‡ºç°ä½ç½®æŒ‡é’ˆ
 	
 
 	int length,empty =0;
@@ -297,7 +297,7 @@ int main()
 
 	}
 	fclose(fp);
-	//ÎÄ¼ş½áÊøºó£¬²»¼ÌĞø¶ÁÈ¡ÎÄ¼ş£¬¼ÌĞø½âÎöÊ£ÓàµÄ±êÇ©
+	//æ–‡ä»¶ç»“æŸåï¼Œä¸ç»§ç»­è¯»å–æ–‡ä»¶ï¼Œç»§ç»­è§£æå‰©ä½™çš„æ ‡ç­¾
 	while (1)
 	{
 		length = SeekPath(buffer, ppath, nextpath);
@@ -312,12 +312,12 @@ int main()
 
 		cout << "the label langth " << length << " total " << total << " filename is " << nowfile.filename << endl;
 		
-		//pathÖ¸ÕëÏòÇ°ÒÆ¶¯
+		//pathæŒ‡é’ˆå‘å‰ç§»åŠ¨
 		ppath += sizeof("path\"");
 		buffer = ppath;
 		nextpath += sizeof("path\"");
 	}
 
-	cout << "ÒÑÈ«²¿½âÎöÍê³É£¬";
+	cout << "å·²å…¨éƒ¨è§£æå®Œæˆï¼Œ";
 	system("pause");
 }
