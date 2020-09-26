@@ -7,4 +7,4 @@ The json file in the case is uploaded below as "annotations.json"
 The main progrem to convert tsinghua dataset to VOC xml. Place the "annotations.json" and cpp files together and run it.
 
 ## TsinghuaAnalyze
-Disabled the function of output XML and added a statistics for each label. You can know how many labels contain according this.
+Disabled the function of output XML and added a statistics for each label. You can know how many labels contained according this.
